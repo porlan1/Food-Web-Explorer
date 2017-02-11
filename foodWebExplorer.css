@@ -18,6 +18,7 @@ body {
 button{
   font-family:'Karla',sans-serif;
 }
+
 .topPanel {
   position:fixed;
   left:0px;
@@ -28,6 +29,7 @@ button{
   text-align:left;
   border-bottom: 5px solid gray;
 }
+
 .topPanelText {
   margin-top:7px;
   color:white;
@@ -57,4 +59,21 @@ button{
   background-color:gray;
   border: 1px solid black;
   cursor:row-resize;
+}
+
+.linkReminder {
+  position: absolute;
+  left: calc(50% - 140px);
+  animation-name: linkAnimator;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes linkAnimator {
+  from {
+    top: -40px;
+  }
+  to {
+    top: 0px;
+  }
 }

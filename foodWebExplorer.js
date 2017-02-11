@@ -52,6 +52,7 @@ class App extends React.Component {
 		this.destructInfoScreen = this.destructInfoScreen.bind(this);
 		this.generateParameterClickViews = this.generateParameterClickViews.bind(this);
 		this.generateSinglePCV = this.generateSinglePCV.bind(this);
+		this.unsetLinkDisplay = this.unsetLinkDisplay.bind(this);
 		this.parameterClickViews = {};
 		this.infoScreen = [];
 		this.populationMarkerSize = 50;
@@ -64,7 +65,6 @@ class App extends React.Component {
 		this.finalTimeChecked = false;
 		this.newlyCreated = 0;
 		this.linkDisplay = false;
-		this.linkTimer;
 		//web worker for running the simulations on a separate thread
 		//web worker function defined in this file, necessary for 
 		//chrome compatibility
@@ -96,8 +96,8 @@ class App extends React.Component {
 			leftPosition: window.innerWidth/2,
 			leftPositionPercent: 0.5,
 			initialPositionLeft: window.innerWidth/2,
-			topPosition: 500,
-			initialPositionTop: 500,
+			topPosition: 400,
+			initialPositionTop: 400,
 			draggableVertical: false,
 			draggableHorizontal: false,
 			cursor: 'default',
@@ -154,9 +154,7 @@ class App extends React.Component {
 			top:'50px',
 			left:'0px',
 			cursor:this.state.cursor};
-			
-		//var populations = [];
-		//var parameterSetters = [];
+		
 		var foodWebLinks = [], parameterSetters = [], 
 			popMarkers = [], initialConditions = [],
 			currentPop, linkName, linkColor, eatenPop, 
@@ -164,13 +162,10 @@ class App extends React.Component {
 			selectedKeyIndex = undefined,
 			linkDisplay = [];
 		//put the current selected population at the top of the parameter list
-		if (this.linkDisplay) {
-			linkDisplay = <LinkReminder />;
-			/*<h2 style = {{color: 'red', 
-				fontFamily: '"Karla", sans-serif',
-				position: 'absolute', top: 55}}>
-				Hold Shift to set a link
-				</h2>;*/
+		if (this.linkDisplay && this.state.windowWidth > 900) {
+			linkDisplay = <LinkReminder 
+				unsetLinkDisplay = {this.unsetLinkDisplay}
+				windowWidth = {this.state.windowWidth}/>;
 		}
 		var i = 0;
 		for (let key in this.foodWeb.populations) {
@@ -247,7 +242,6 @@ class App extends React.Component {
 			}
 		}
 		
-		
 		if (selectedKeyIndex !== undefined && selectedKeyIndex !==0) {
 			var tempParmSet = parameterSetters[0];
 			parameterSetters[0] = parameterSetters[selectedKeyIndex];
@@ -296,7 +290,8 @@ class App extends React.Component {
 					onMouseEnter = {function(){this.setState({infoButtonCursor:'pointer'});}.bind(this)}
 					onMouseLeave = {function(){this.setState({infoButtonCursor:'default'});}.bind(this)}>
 						<circle cx = {15} cy = {15} r = {14.5} fill = 'white'/>
-						<text x = {15} y = {20} textAnchor = 'middle' stroke = 'black' fontSize = {20}>
+						<text x = {15} y = {23} textAnchor = 'middle' stroke = 'black'
+							fontSize = {30} fontStyle = 'italic'>
 						i
 						</text>
 				</g>
@@ -500,7 +495,6 @@ class App extends React.Component {
 	}
 
 	updateDimensions(){
-		//var state = {leftPosition:this.state.leftPositionPercent*this.state.windowWidth};
 		this.setState((prevState)=>({
 			windowWidth: window.innerWidth,
 			windowHeight: window.innerHeight,
@@ -523,17 +517,17 @@ class App extends React.Component {
 
 	createPopulation(){
 		this.newlyCreated++;
-		if (this.newlyCreated < 4 && this.newlyCreated > 1) {
+		if (this.newlyCreated == 2) {
 			this.linkDisplay = true;
-			this.linkTimer = setTimeout(
-				function(){
-					this.linkDisplay = false;
-					this.setState({});
-				}.bind(this),2000);
 		}
 		this.foodWeb.addPopulation(this.state.leftPosition/2+40*Math.random()-this.state.webOffsetX,
 			this.state.topPosition/2+40*Math.random()-this.state.webOffsetY);
 		this.generateSinglePCV('pop'+this.foodWeb.counter);
+		this.setState({});
+	}
+
+	unsetLinkDisplay() {
+		this.linkDisplay = false;
 		this.setState({});
 	}
 
@@ -730,43 +724,6 @@ class App extends React.Component {
 				onArrowClick = {this.setParameterViewActive}/>;
 	}
 
-	runSimulation() {
-		//prepare foodweb for simulation:
-		this.foodWeb.keyToArrayMapping();
-		this.foodWeb.setY0();
-		var simData = {};
-		var myWorker = new Worker(URL.createObjectURL(
-			new Blob(['('+this.simWorkerFunction.toString()+')()'],
-				{type: 'text/javascript'})));
-		//copy the web data for creating equations only
-		simData.first = true;
-		simData.fullRun = false;
-		simData.web = this.foodWeb.copyForEquations();
-		simData.y0 = this.foodWeb.y0;
-		simData.currentTime = 0.0;
-		simData.finalTime = this.foodWeb.finalTime;
-		this.foodWeb.dataX = [];
-		this.foodWeb.dataY = [];
-
-		this.foodWeb.dataY.push(this.foodWeb.y0);
-		this.foodWeb.dataX.push(0.0);
-		myWorker.postMessage(simData);
-		myWorker.onmessage = function(e) {
-			for (var i = 1; i < e.data.soln.x.length; i++) {
-				this.foodWeb.dataX.push(e.data.soln.x[i]);
-				this.foodWeb.dataY.push(e.data.soln.y[i]);
-			}
-			simData.first = false;
-			if (e.data.currentTime < this.foodWeb.finalTime) {
-				simData.y0 = e.data.soln.y[e.data.soln.y.length-1];
-				simData.currentTime = e.data.currentTime;
-				//simData.first = false;
-				myWorker.postMessage(simData);
-			}
-			this.setState({});
-		}.bind(this);
-	}
-
 	runSimulationFull() {
 		//prepare foodweb for simulation:
 		this.playState = 'play';
@@ -775,6 +732,7 @@ class App extends React.Component {
 		this.foodWeb.setY0();
 		var simData = {};
 		//copy the web data for creating equations only
+		//for locating web worker resource
 		simData.url = document.location.href;
 		simData.fullRun = true;
 		simData.web = this.foodWeb.copyForEquations();

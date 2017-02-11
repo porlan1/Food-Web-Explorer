@@ -7,15 +7,15 @@ export default class LinkReminder extends React.Component {
 
 	render() {
 		return(
-			<svg height = {50} width = {400} style = {{position: 'absolute',
-				left: 20, top: 90}}>
+			<svg height = {50} width = {400} 
+				className = 'linkReminder'>
 				<filter id = 'blur'>
 					<feGaussianBlur stdDeviation = '3'/>
 				</filter>
 				<rect x = {4} y = {4} height = {40} width = {280} 
-					fill = 'black' filter = 'url(#blur)'/>
+					fill = 'gray' filter = 'url(#blur)'/>
 				<rect x = {0} y = {0} height = {40} width = {280} 
-					fill = 'rgb(200, 200, 200)' stroke = 'black'/>
+					fill = 'white' stroke = 'black'/>
 				<text x = {45} y = {25} fill = 'red'
 					fontSize = {20}>
 					Shift + 'Click' to set a link
@@ -23,10 +23,25 @@ export default class LinkReminder extends React.Component {
 				<g transform = 'translate(-30, -10)'>
 					<Butterfly />
 				</g>
+				<g style = {{'cursor':'pointer'}}
+					transform = 'translate(268, 0)'
+					onClick = {this.props.unsetLinkDisplay}>
+					<rect x = {0} y = {0} width = {12} height = {12} fill = 'rgb(180,180,180)'/>
+					<line x1 = {1} y1 = {1} x2 = {11} y2 = {11}
+						stroke = 'red'
+						strokeWidth = {2}/>
+					<line x1 = {1} y1 = {11} x2 = {11} y2 = {1}
+						stroke = 'red'
+						strokeWidth = {2}/>
+				</g>
 			</svg>
 		);
 	}
 }
+
+LinkReminder.propTypes = {
+	unsetLinkDisplay: React.PropTypes.func.isRequired
+};
 
 class Butterfly extends React.Component {
 	constructor(props) {
