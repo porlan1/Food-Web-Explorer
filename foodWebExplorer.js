@@ -775,7 +775,7 @@ class App extends React.Component {
 		this.foodWeb.setY0();
 		var simData = {};
 		//copy the web data for creating equations only
-		simData.url = document.location.protocol + '//' + document.location.host;
+		simData.url = document.location.href;
 		simData.fullRun = true;
 		simData.web = this.foodWeb.copyForEquations();
 		simData.y0 = this.foodWeb.y0;
@@ -1243,7 +1243,7 @@ class App extends React.Component {
 		var odes;
 
 		onmessage = function(e) {
-			importScripts(e.data.url + 'Food-Web-Explorer/dependencies/numericjs/numeric-1.2.6.js');
+			importScripts(e.data.url + 'dependencies/numericjs/numeric-1.2.6.js');
 			var soln, result = {};
 			var time = 0.0, localSoln, currentY0 = e.data.y0;
 			if (e.data.fullRun) {
