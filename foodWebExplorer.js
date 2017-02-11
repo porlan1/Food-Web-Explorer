@@ -34,7 +34,6 @@ class App extends React.Component {
 		this.unsetShift = this.unsetShift.bind(this);
 		this.setParameterViewActive = this.setParameterViewActive.bind(this);
 		this.setPopulationParameter = this.setPopulationParameter.bind(this);
-		this.runSimulation = this.runSimulation.bind(this);
 		this.stopSimulation = this.stopSimulation.bind(this);
 		this.offsetWeb = this.offsetWeb.bind(this);
 		this.setParameterScreenActive = this.setParameterScreenActive.bind(this);
