@@ -1,0 +1,85 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "numericjs",
+        "scope": null,
+        "escapedName": "numericjs",
+        "name": "numericjs",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/porlan1/foodWebExplorer"
+    ]
+  ],
+  "_from": "numericjs@latest",
+  "_id": "numericjs@1.2.6",
+  "_inCache": true,
+  "_location": "/numericjs",
+  "_nodeVersion": "5.7.0",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/numericjs-1.2.6.tgz_1465808212750_0.7906879056245089"
+  },
+  "_npmUser": {
+    "name": "darshit-shah",
+    "email": "darshit@yuktianalytics.com"
+  },
+  "_npmVersion": "3.6.0",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "numericjs",
+    "scope": null,
+    "escapedName": "numericjs",
+    "name": "numericjs",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/numericjs/-/numericjs-1.2.6.tgz",
+  "_shasum": "c0daf25c4bcb22e043bf83443f9f39e8b336798b",
+  "_shrinkwrap": null,
+  "_spec": "numericjs",
+  "_where": "/Users/porlan1/foodWebExplorer",
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/darshit-shah/numericjs/issues"
+  },
+  "dependencies": {},
+  "description": "node module for http://www.numericjs.com/",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "c0daf25c4bcb22e043bf83443f9f39e8b336798b",
+    "tarball": "https://registry.npmjs.org/numericjs/-/numericjs-1.2.6.tgz"
+  },
+  "gitHead": "29b7c155fa91a2e46f06ccbe4f5da31908b2331a",
+  "homepage": "https://github.com/darshit-shah/numericjs#readme",
+  "keywords": [
+    "numericjs"
+  ],
+  "license": "MIT",
+  "main": "numeric-1.2.6.js",
+  "maintainers": [
+    {
+      "name": "darshit-shah",
+      "email": "darshit@yuktianalytics.com"
+    }
+  ],
+  "name": "numericjs",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darshit-shah/numericjs.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.2.6"
+}
